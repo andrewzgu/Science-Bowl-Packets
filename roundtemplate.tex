@@ -1,0 +1,56 @@
+\documentclass[12pt]{article}
+
+\usepackage{geometry}
+\usepackage{csvsimple}
+\usepackage{xfp}
+\usepackage{enumitem}
+\usepackage[version=4]{mhchem}
+\usepackage{draftwatermark}
+\SetWatermarkScale{3}
+
+\usepackage{amsmath}
+\usepackage{braket}
+
+\setlength{\parindent}{0pt}
+\newcommand{\wxyz}[4]{
+\begin{enumerate}[label={\Alph*}), noitemsep]
+  \setcounter{enumi}{22}
+  \item #1
+  \item #2
+  \item #3
+  \item #4
+\end{enumerate}
+}
+
+%\newcommand{\pron}[1]{#1}
+%\let\read\relax
+%\newcommand{\read}[1]{#1}
+
+\newcommand{\roundnumber}{1}
+
+%\pagestyle{empty}
+
+\begin{document}
+
+\begin{center}
+\begin{huge}
+MIT High School Science Bowl Invitational DRAFT Round \roundnumber
+\end{huge}
+\end{center}
+
+\csvreader[
+  respect percent=true,
+  respect sharp=true,
+]{splitrounds/round\roundnumber.csv}{1=\tb, 2=\cat, 3=\mcsa, 4=\question, 5=\answer}
+{
+\ifodd\thecsvrow\filbreak\fi
+
+\begin{center}
+{\textbf{\MakeUppercase{\tb}}}
+\end{center}
+\inteval{\thecsvrow/2})  \MakeUppercase{\cat} \textit{\mcsa} \question
+
+\vspace{5pt}
+ANSWER: \answer \vspace{15pt}
+}
+\end{document}
