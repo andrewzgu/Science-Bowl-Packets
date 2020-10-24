@@ -16,7 +16,7 @@ def texify(text):
   #Subscripts and superscripts inside math mode
   text = re.sub(r'(\s)([^$\s]*[\^_][^$\s}]*?)([\s?.])', r'\1$\2$\3', text)
   #Use enumerate environments
-  for i in range(5, 1, -1):
+  for i in range(7, 1, -1):
     t1 = ''.join(str(j) + r'\)([\s\S]*)' for j in range(1, i+1))
     t2 = r'\\begin{enumerate}[label={\\arabic*}), noitemsep]' + \
             ''.join(r'\\item ' + '\\'+ str(j) for j in range(1, i+1)) + \

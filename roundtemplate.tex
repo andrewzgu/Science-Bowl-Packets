@@ -23,7 +23,7 @@
 }
 
 \newcommand{\pron}[1]{(#1)}
-%\renewcommand{\read}[1]{(#1)}
+\newcommand{\readas}[1]{(#1)}
 \newcommand{\readernote}[1]{(#1)}
 
 %\pagestyle{empty}
@@ -53,5 +53,7 @@ MIT High School Science Bowl Invitational DRAFT Round \roundnumber
 
 \vspace{5pt}
 ANSWER: \answer \vspace{15pt}
+
+\ifodd\thecsvrow\else\hrulefill\fi
 }
 \end{document}
