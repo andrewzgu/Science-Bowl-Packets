@@ -4,10 +4,10 @@
 \usepackage{csvsimple}
 \usepackage{xfp}
 \usepackage{enumitem}
-\usepackage[version=4]{mhchem}
 \usepackage{draftwatermark}
 \SetWatermarkScale{3}
 
+\usepackage[version=4]{mhchem}
 \usepackage{amsmath}
 \usepackage{braket}
 
@@ -22,13 +22,14 @@
 \end{enumerate}
 }
 
-%\newcommand{\pron}[1]{#1}
-%\let\read\relax
-%\newcommand{\read}[1]{#1}
-
-\newcommand{\roundnumber}{1}
+\newcommand{\pron}[1]{(#1)}
+%\renewcommand{\read}[1]{(#1)}
+\newcommand{\readernote}[1]{(#1)}
 
 %\pagestyle{empty}
+
+%This variable must be replaced
+\newcommand{\roundnumber}{ROUNDNUMBERVAR}
 
 \begin{document}
 
