@@ -4,8 +4,11 @@
 \usepackage{csvsimple}
 \usepackage{xfp}
 \usepackage{enumitem}
+
+\ifdefined\draftmode
 \usepackage{draftwatermark}
 \SetWatermarkScale{3}
+\fi
 
 \usepackage[version=4]{mhchem}
 \usepackage{amsmath}
@@ -28,14 +31,11 @@
 
 %\pagestyle{empty}
 
-%This variable must be replaced
-\newcommand{\roundnumber}{ROUNDNUMBERVAR}
-
 \begin{document}
 
 \begin{center}
 \begin{huge}
-MIT High School Science Bowl Invitational DRAFT Round \roundnumber
+MIT High School Science Bowl Invitational Round \roundnumber
 \end{huge}
 \end{center}
 

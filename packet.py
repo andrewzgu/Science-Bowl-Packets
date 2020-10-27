@@ -24,7 +24,7 @@ with open(sys.argv[1], newline='') as csvfile:
   properties = rows.pop(0)
   questions = []
   for i, row in enumerate(rows):
-    q = {property: value for property, value in zip(properties, row)}
+    q = dict(zip(properties, row))
     q.update({'id': i})
     q[diff_col] = float(q[diff_col]) if q[diff_col] != '' else 4
     questions.append(q)
