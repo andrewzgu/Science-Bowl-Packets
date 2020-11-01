@@ -7,6 +7,7 @@
 \usepackage{enumitem}
 \usepackage{fancyhdr}
 \usepackage[T1]{fontenc}
+\usepackage{xcolor}
 
 \ifdefined\draftmode
   \usepackage{draftwatermark}
@@ -48,6 +49,13 @@
     }
   \end{LARGE}
 \end{center}
+
+\ifdefined\timewarning
+  \begin{huge}
+    \color{red}
+    \textbf{For volunteers: do not begin reading this round before \timewarning Eastern Time.}
+  \end{huge}
+\fi
 
 \csvreader[
   respect percent=true,

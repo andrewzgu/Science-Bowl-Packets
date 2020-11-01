@@ -17,10 +17,13 @@ if [[ -z "$NUMBER_OF_ROUNDS" ]]; then
   exit
 fi
 
-while getopts "d" opt; do
+while getopts "d:i" opt; do
   case $opt in
     d)
       draft=true
+      ;;
+    i)
+      instructions=true
       ;;
     *)
       echo "Unrecognized flag"
@@ -38,6 +41,10 @@ do
   filecontents="\\newcommand{\\roundnumber}{$i} \\input{roundtemplate.tex}"
   if [ "$draft" = true ]; then
     filecontents="\\def\\draftmode{1} ${filecontents}"
+  fi
+  if [ "$instructions" = true ]; then
+    varname="time$i"
+    filecontents="\\def\\timewarning{${!varname}} ${filecontents}"
   fi
   pdflatex -output-directory compiled \
     -interaction=batchmode \
