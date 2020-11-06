@@ -22,6 +22,8 @@ MC = 'Multiple Choice'
 np.random.seed(1234)
 
 def texify(text):
+  assert text.count('{') == text.count('}'), f"mismatched brackets: {text}"
+  assert '\read{' not in text, f"use \\readas not \\read: {text}"
   #Subscripts and superscripts inside math mode
   text = re.sub(r'(\s)([^$\s]*[\^_][^$\s}]*?)([\s?.])', r'\1$\2$\3', text)
   #Use enumerate environments
@@ -143,11 +145,12 @@ def assign(qs, rand=(lambda d: d)): # rand: perturbation function
 ##            qs.at[i*per_round*2+j*2:i*per_round*2+j*2+1,
 ##                  'packet_order'] = 10*i+j+np.random.uniform()
 
+    qs.rename(columns={'round_number': 'Round'}, inplace=True)
+
     set_packet_order(qs, per_round)
 
     qs.drop(columns=['rr_order', 'is_bonus', 'new_diff', 'pair_id'],
             inplace=True)
-    qs.rename(columns={'round_number': 'Round'}, inplace=True)
     
     return qs
 
@@ -157,7 +160,8 @@ def set_packet_order(qs, per_round):
     else:
         qs.insert(len(qs.columns), 'packet_order', 1000)
     for i in range(num_rounds):
-        assert all(qs.loc[i*per_round*2:(i+1)*per_round*2-1, 'round_number'] == i+1)
+        assert all(qs.loc[i*per_round*2:(i+1)*per_round*2-1, 'Round'] ==
+                   i+1), qs.Category[0]
         for j in range(per_round):
             qs.at[i*per_round*2+j*2:i*per_round*2+j*2+1,
                   'packet_order'] = 10*i+j+np.random.uniform()
@@ -189,7 +193,7 @@ if len(sys.argv) <= 6:
 else:
     qs_list = [pd.read_csv(fname) for fname in sys.argv[1:]]
     for i in range(6):
-        set_packet_order(qs_list, category_targets[i])
+        set_packet_order(qs_list[i], category_targets[i])
     all_qs = interleave(qs_list)
     all_qs.to_csv('All.csv', index=False)
 
@@ -199,7 +203,7 @@ for i in range(num_rounds):
     rounds[i] = rounds[i].applymap(lambda s: '{{{}}}'.format(s))
 ##    rounds[i].to_csv(f'splitrounds/round{i+1}.csv', index=False,
 ##                     quoting=csv.QUOTE_NONE)
-    with open('splitrounds/round{}.csv'.format(i), 'w') as round_writer:
+    with open('splitrounds/round{}.csv'.format(i+1), 'w') as round_writer:
         round_writer.write(','.join(rounds[i].columns) + '\n')
         for _, row in rounds[i].iterrows():
             round_writer.write(','.join(row) + '\n')
