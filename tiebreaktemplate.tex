@@ -32,12 +32,12 @@
 \pagestyle{fancy}
 \fancyhf{}
 \renewcommand{\headrulewidth}{0pt}
-\lfoot{\texttt{MIT Science Bowl Invitational Round \roundnumber}}
+\lfoot{\texttt{MIT Science Bowl Tiebreaker Round \roundnumber}}
 \rfoot{\texttt{Page \thepage}}
 
-\newcommand{\pron}[1]{(\textit{#1})}
-\newcommand{\readas}[1]{(read: \textit{#1})}
-\newcommand{\readernote}[1]{(\textit{#1})}
+\newcommand{\pron}[1]{(#1)}
+\newcommand{\readas}[1]{(#1)}
+\newcommand{\readernote}[1]{(#1)}
 
 \begin{document}
 
@@ -45,34 +45,27 @@
   \begin{LARGE}
     {\fontfamily{lmss}\selectfont
       \mbox{2020 MIT Science Bowl High School Invitational}
-      \vspace{10pt} \par Round \roundnumber
+      \vspace{10pt} \par Tiebreaker Round \roundnumber
     }
   \end{LARGE}
 \end{center}
 
-\ifdefined\timewarning
-  \begin{huge}
-    \color{red}
-    \textbf{For volunteers: do not begin reading this round before \timewarning Eastern Time.}
-  \end{huge}
-\fi
-
 \csvreader[
   respect percent=true,
   respect sharp=true,
-]{splitrounds/round\roundnumber.csv}{1=\tb, 2=\cat, 3=\mcsa, 4=\question, 5=\answer}
+]{tiebreaks/tbround\roundnumber.csv}{1=\tb, 2=\cat, 3=\mcsa, 4=\question, 5=\answer}
 {
-  \ifodd\thecsvrow\filbreak\fi
+  \filbreak
 
   \begin{center}
     {\textbf{\MakeUppercase{\tb}}}
   \end{center}
 
-  \inteval{\thecsvrow/2})  \MakeUppercase{\cat} \textit{\mcsa} \question
+  \thecsvrow)  \MakeUppercase{\cat} \textit{\mcsa} \question
 
   \vspace{5pt}
   ANSWER: \answer \vspace{15pt}
 
-  \unless\ifodd\thecsvrow\hrulefill\fi
+  \hrulefill
 }
 \end{document}
