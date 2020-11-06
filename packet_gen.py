@@ -14,6 +14,7 @@ categories = ['Math', 'Physics', 'Chemistry', 'Biology', 'Earth and Space',
 category_targets = [4, 4, 4, 4, 4, 3]
 
 num_rounds = 13
+num_tb = 10
 round_robin = 5
 
 SA = 'Short Answer'
@@ -165,7 +166,11 @@ def set_packet_order(qs, per_round):
         for j in range(per_round):
             qs.at[i*per_round*2+j*2:i*per_round*2+j*2+1,
                   'packet_order'] = 10*i+j+np.random.uniform()
-    
+    for i in range(num_tb):
+        row = np.where(qs.Round == i+20)[0]
+        assert len(row) <= 1
+        if len(row) == 1:
+            qs.at[row, 'packet_order'] = 10*(i+20)+np.random.uniform()
 
 def interleave(qs_list):
     all_qs = pd.concat(qs_list, ignore_index=True)
@@ -206,5 +211,16 @@ for i in range(num_rounds):
     with open('splitrounds/round{}.csv'.format(i+1), 'w') as round_writer:
         round_writer.write(','.join(rounds[i].columns) + '\n')
         for _, row in rounds[i].iterrows():
+            round_writer.write(','.join(row) + '\n')
+
+tb_rounds = [all_qs[all_qs.Round == i+20] for i in range(num_rounds)]
+for i in range(num_tb):
+    tb_rounds[i].drop(columns=['Round'], inplace=True)
+    tb_rounds[i] = tb_rounds[i].applymap(lambda s: '{{{}}}'.format(s))
+##    rounds[i].to_csv(f'splitrounds/round{i+1}.csv', index=False,
+##                     quoting=csv.QUOTE_NONE)
+    with open('tiebreaks/tbround{}.csv'.format(i+1), 'w') as round_writer:
+        round_writer.write(','.join(tb_rounds[i].columns) + '\n')
+        for _, row in tb_rounds[i].iterrows():
             round_writer.write(','.join(row) + '\n')
     
