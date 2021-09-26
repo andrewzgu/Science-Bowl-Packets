@@ -1,3 +1,8 @@
+"""
+Appends rows to the file `questions.csv` to create filler data.
+
+WARNING: currently out of date.
+"""
 import sys
 import random
 
