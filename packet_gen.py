@@ -21,23 +21,22 @@ SA = 'Short Answer'
 MC = 'Multiple Choice'
 
 np.random.seed(1234)
-
 def texify(text):
-  assert text.count('{') == text.count('}'), f"mismatched brackets: {text}"
-  assert '\read{' not in text, f"use \\readas not \\read: {text}"
-  #Subscripts and superscripts inside math mode
-  text = re.sub(r'(\s)([^$\s]*[\^_][^$\s}]*?)([\s?.])', r'\1$\2$\3', text)
-  #Use enumerate environments
-  for i in range(7, 1, -1):
-    t1 = ''.join(str(j) + r'\)([\s\S]*)' for j in range(1, i+1))
-    t2 = r'\\begin{enumerate}[label={\\arabic*}), noitemsep]' + \
-            ''.join(r'\\item ' + '\\'+ str(j) for j in range(1, i+1)) + \
-            r'\\end{enumerate}'
-    text = re.sub(t1, t2, text)
-  text = re.sub(r'W\)([\s\S]*)X\)([\s\S]*)Y\)([\s\S]*)Z\)([\s\S]*)', r'\\wxyz{\1}{\2}{\3}{\4}', text)
-  #Remove all trailing whitespace
-  text = re.sub(r'\s+$', r'', text)
-  return text
+    assert text.count('{') == text.count('}'), f"mismatched brackets: {text}"
+    assert '\read{' not in text, f"use \\readas not \\read: {text}"
+    #Subscripts and superscripts inside math mode
+    text = re.sub(r'(\s)([^$\s]*[\^_][^$\s}]*?)([\s?.])', r'\1$\2$\3', text)
+    #Use enumerate environments
+    for i in range(7, 1, -1):
+        t1 = ''.join(str(j) + r'\)([\s\S]*)' for j in range(1, i+1))
+        t2 = r'\\begin{enumerate}[label={\\arabic*}), noitemsep]' + \
+                ''.join(r'\\item ' + '\\'+ str(j) for j in range(1, i+1)) + \
+                r'\\end{enumerate}'
+        text = re.sub(t1, t2, text)
+    text = re.sub(r'W\)([\s\S]*)X\)([\s\S]*)Y\)([\s\S]*)Z\)([\s\S]*)', r'\\wxyz{\1}{\2}{\3}{\4}', text)
+    #Remove all trailing whitespace
+    text = re.sub(r'\s+$', r'', text)
+    return text
 
 def get_data(f):
     qs = pd.read_csv(f, delimiter=',', quotechar='"')
@@ -46,7 +45,7 @@ def get_data(f):
     qs.insert(0, 'round_number', 0)
     qs.insert(len(qs.columns), 'pair_id', -1)
     qs.insert(len(qs.columns), 'is_bonus',
-              qs['Toss up/Bonus'] == 'Bonus')
+            qs['Toss up/Bonus'] == 'Bonus')
     qs.insert(len(qs.columns), 'new_diff', qs.Difficulty)
     qs.insert(len(qs.columns), 'forced_pair', False)
     qs.Question = qs.Question.apply(texify)
